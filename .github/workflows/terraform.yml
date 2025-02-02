@@ -36,6 +36,8 @@ jobs:
         run: |
           git clone https://$(System.AccessToken):${{ secrets.AZURE_REPO_PAT }}@dev.azure.com/williamcastelino99/TestProject/_git/az-root
           cd az-root
+        env:
+          AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
 
       # Install dependencies for Terraform (e.g., initialize Terraform)
       - name: Install Terraform dependencies
