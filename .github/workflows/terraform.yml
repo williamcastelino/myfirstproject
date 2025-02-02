@@ -30,7 +30,7 @@ jobs:
       - name: Set up Git credentials for Azure Repos
         run: |
           git config --global credential.helper 'store --file=.git-credentials'
-          echo "https://$(echo ${{ secrets.AZURE_DEVOPS_PAT }}):@dev.azure.com" > ~/.git-credentials
+          echo "https://$(echo ${{ secrets.AZURE_REPO_PAT }}):@dev.azure.com" > ~/.git-credentials
 
       # Change to az-root directory where Terraform configuration files are located
       - name: Change to az-root directory
