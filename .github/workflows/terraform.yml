@@ -32,9 +32,14 @@ jobs:
           git config --global credential.helper 'store --file=.git-credentials'
           echo "https://$(echo ${{ secrets.AZURE_DEVOPS_PAT }}):@dev.azure.com" > ~/.git-credentials
 
+      # Change to az-root directory where Terraform configuration files are located
+      - name: Change to az-root directory
+        run: cd az-root
+
       # Initialize Terraform (this will download the az-network module from Azure Repos)
       - name: Terraform Init
         run: terraform init
+        working-directory: az-root
 
       # Terraform Plan
       - name: Terraform Plan
