@@ -1,74 +1,48 @@
-name: Deploy Terraform to Azure
+name: Terraform Azure Pipeline
 
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the main branch
-
-permissions:
-  id-token: write  # Allow the workflow to request an ID token
-  contents: read   # Allow access to the repository contents
+      - main
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the GitHub repository (if this is where your workflow is defined)
-      - name: Checkout GitHub repository
+      # Checkout the az-root repository (the repository containing the Terraform code)
+      - name: Checkout az-root repository
         uses: actions/checkout@v2
 
-      # Set up Terraform
+      # Set up Terraform CLI
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: '1.10.5'  # specify your desired version of Terraform
+          terraform_version: '1.4.0'
 
-      # # Set up Azure credentials using GitHub Secrets
-      # - name: Set up Azure credentials
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}  # Use a secret containing the JSON credentials
-
-
-      # Clone the Azure Repos repository using the PAT stored in GitHub Secrets
-      - name: Clone Azure Repos Terraform repository
-        run: |
-          git clone https://$(echo ${{ secrets.AZURE_REPO_PAT }}@dev.azure.com/williamcastelino99/TestProject/_git/az-root)
-          echo "Changing Directory"
-          cd az-root
-      #   env:
-      #     AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
-
-      # Set up Azure credentials using Service Principal
+      # Set up Azure credentials using Service Principal (for Azure resource deployment)
       - name: Set up Azure credentials for Service Principal
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}  # Use a secret containing the JSON credentials
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-
-      # Set up Git credentials for Azure Repos (if using modules from Azure Repos)
+      # Set up Git credentials for Azure Repos (using PAT to authenticate with Azure Repos)
       - name: Set up Git credentials for Azure Repos
         run: |
           git config --global credential.helper 'store --file=.git-credentials'
-          echo "https://$(echo ${{ secrets.AZURE_REPO_PAT }}):@dev.azure.com" > ~/.git-credentials
+          echo "https://$(echo ${{ secrets.AZURE_DEVOPS_PAT }}):@dev.azure.com" > ~/.git-credentials
 
-      # Install dependencies for Terraform (e.g., initialize)
-      - name: Install Terraform dependencies
-        run: |
-          cd az-root
-          terraform init
+      # Initialize Terraform (this will download the az-network module from Azure Repos)
+      - name: Terraform Init
+        run: terraform init
 
-      # Run Terraform plan
+      # Terraform Plan
       - name: Terraform Plan
         run: terraform plan
 
-      # Apply the Terraform plan (be careful with auto-approval)
+      # Terraform Apply
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
