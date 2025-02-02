@@ -39,6 +39,12 @@ jobs:
         env:
           AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
 
+      # Clone Azure Repos repository using PAT
+      - name: Set up Azure DevOps PAT for Git Authentication
+        run: |
+          git config --global credential.helper 'store --file=.git-credentials'
+          echo "https://$(echo ${{ secrets.AZURE_DEVOPS_PAT }}):@dev.azure.com" > ~/.git-credentials
+
       # Install dependencies for Terraform (e.g., initialize Terraform)
       - name: Install Terraform dependencies
         run: |
