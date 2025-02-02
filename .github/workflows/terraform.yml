@@ -53,7 +53,7 @@ jobs:
           git config --global credential.helper 'store --file=.git-credentials'
           echo "https://$(echo ${{ secrets.AZURE_REPO_PAT }}):@dev.azure.com" > ~/.git-credentials
 
-      # Install dependencies for Terraform (e.g., initialize Terraform)
+      # Install dependencies for Terraform (e.g., initialize)
       - name: Install Terraform dependencies
         run: |
           cd az-root
