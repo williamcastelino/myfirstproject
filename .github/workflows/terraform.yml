@@ -48,7 +48,8 @@ jobs:
       # Terraform Plan
       - name: Terraform Plan
         run: terraform plan
+        working-directory: az-root
 
       # Terraform Apply
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      #- name: Terraform Apply
+      # run: terraform apply -auto-approve
