@@ -5,6 +5,10 @@ on:
     branches:
       - main  # Trigger the workflow on push to the main branch
 
+permissions:
+  id-token: write  # Allow the workflow to request an ID token
+  contents: read   # Allow access to the repository contents
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
