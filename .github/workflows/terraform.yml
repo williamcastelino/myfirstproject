@@ -36,7 +36,7 @@ jobs:
       - name: Change to az-root directory
         run: cd az-root
 
-      # Initialize Terraform (this will download the az-network module from Azure Repos)
+      # Initialize Terraform (this will download the az-network module from Azure Repos
       - name: Terraform Init
         run: terraform init
         working-directory: az-root
