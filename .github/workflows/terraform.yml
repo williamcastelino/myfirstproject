@@ -28,11 +28,7 @@ jobs:
       - name: Set up Azure credentials
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          auth-type: 'service_principal'  # Use service principal with client secret
+          creds: ${{ secrets.AZURE_CREDENTIALS }}  # Use a secret containing the JSON credentials
 
 
       # Clone the Azure Repos repository using the PAT stored in GitHub Secrets
