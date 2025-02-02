@@ -39,9 +39,13 @@ jobs:
         env:
           AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
 
-      - name: Login using Azure CLI
+       # Set up Azure credentials for Service Principal authentication
+      - name: Set up Azure credentials for Service Principal
         run: |
-          az login --username "williamcastelino99@gmail.com" --password "Willi@1304"
+          echo "AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "AZURE_CLIENT_SECRET=${{ secrets.AZURE_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "AZURE_TENANT_ID=${{ secrets.AZURE_TENANT_ID }}" >> $GITHUB_ENV
+          echo "AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
       # Install dependencies for Terraform (e.g., initialize Terraform)
       - name: Install Terraform dependencies
