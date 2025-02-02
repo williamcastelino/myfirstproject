@@ -40,13 +40,20 @@ jobs:
       #   env:
       #     AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
 
-      # Set up Azure credentials for Service Principal authentication
+      # Set up Azure credentials using Service Principal
       - name: Set up Azure credentials for Service Principal
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Set up Git credentials for Azure Repos (if using modules from Azure Repos)
+      - name: Set up Git credentials for Azure Repos
         run: |
-          echo "AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "AZURE_CLIENT_SECRET=${{ secrets.AZURE_CLIENT_SECRET }}" >> $GITHUB_ENV
-          echo "AZURE_TENANT_ID=${{ secrets.AZURE_TENANT_ID }}" >> $GITHUB_ENV
-          echo "AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+          git config --global credential.helper 'store --file=.git-credentials'
+          echo "https://$(echo ${{ secrets.AZURE_REPO_PAT }}):@dev.azure.com" > ~/.git-credentials
 
       # Install dependencies for Terraform (e.g., initialize Terraform)
       - name: Install Terraform dependencies
