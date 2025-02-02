@@ -41,7 +41,9 @@ jobs:
 
       # Install dependencies for Terraform (e.g., initialize Terraform)
       - name: Install Terraform dependencies
-        run: terraform init
+        run: |
+          cd az-root
+          terraform init
 
       # Run Terraform plan
       - name: Terraform Plan
