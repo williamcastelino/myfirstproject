@@ -32,6 +32,8 @@ jobs:
           client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          auth-type: 'service-principal'  # Use service principal with client secret
+
 
       # Clone the Azure Repos repository using the PAT stored in GitHub Secrets
       - name: Clone Azure Repos Terraform repository
