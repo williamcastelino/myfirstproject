@@ -39,6 +39,10 @@ jobs:
         env:
           AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
 
+      # - name: Login using Azure CLI
+      #   run: |
+      #     az login --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
+
       # Install dependencies for Terraform (e.g., initialize Terraform)
       - name: Install Terraform dependencies
         run: |
