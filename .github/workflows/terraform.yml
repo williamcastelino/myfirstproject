@@ -34,7 +34,7 @@ jobs:
       # Clone the Azure Repos repository using the PAT stored in GitHub Secrets
       - name: Clone Azure Repos Terraform repository
         run: |
-          git clone https://$(System.AccessToken):${{ secrets.AZURE_REPO_PAT }}@dev.azure.com/williamcastelino99/TestProject/_git/az-root
+          git clone https://$(echo ${{ secrets.AZURE_REPO_PAT }}@dev.azure.com/williamcastelino99/TestProject/_git/az-root)
           cd az-root
         env:
           AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
