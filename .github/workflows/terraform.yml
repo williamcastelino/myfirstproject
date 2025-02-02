@@ -24,11 +24,11 @@ jobs:
         with:
           terraform_version: '1.10.5'  # specify your desired version of Terraform
 
-      # Set up Azure credentials using GitHub Secrets
-      - name: Set up Azure credentials
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}  # Use a secret containing the JSON credentials
+      # # Set up Azure credentials using GitHub Secrets
+      # - name: Set up Azure credentials
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}  # Use a secret containing the JSON credentials
 
 
       # Clone the Azure Repos repository using the PAT stored in GitHub Secrets
