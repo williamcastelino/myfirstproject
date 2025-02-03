@@ -44,7 +44,7 @@ jobs:
         run: terraform plan
         working-directory: az-root
 
-      # Terraform Apply
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      # Terraform Destroy
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
         working-directory: az-root

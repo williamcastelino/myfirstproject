@@ -1,5 +1,4 @@
 module "network" {
-  //source                  = "git::https://williamcastelino99@gmail.com:34ThBibtDkfXOvIvNnccyGBNvWuRSWi0LNP27jbwpw5ko2wd9nheJQQJ99BAACAAAAAAAAAAAAASAZDOa5ix@dev.azure.com/williamcastelino99/TestProject/_git/az-network?ref=main"
   source                  = "git::https://dev.azure.com/williamcastelino99/TestProject/_git/az-network?ref=main"
   resource_group_name     = var.resource_group_name
   location                = var.location
