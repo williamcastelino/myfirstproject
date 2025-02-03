@@ -34,13 +34,9 @@ jobs:
         run: |
           git config --global url."https://$AZURE_REPO_PAT@dev.azure.com".insteadOf "https://dev.azure.com"
 
-      - name: Install Powershell
-        run: |
-          sudo apt update
-          sudo apt install -y wget apt-transport-https software-properties-common
-          sudo apt update
-
-          pwsh
+      # Set up PowerShell
+      - name: Set up PowerShell
+        uses: microsoft/setup-powershell@v2
       
       # Initialize Terraform (this will download the az-network module from Azure Repos
       - name: Terraform Init
