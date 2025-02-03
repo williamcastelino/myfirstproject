@@ -12,3 +12,7 @@ variable "tags" {
   description = "Tags for the resources"
   type        = map(string)
 }
+
+variable "tenant_id" {
+  type = string
+}
