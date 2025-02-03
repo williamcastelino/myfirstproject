@@ -7,7 +7,7 @@ on:
 
 jobs:
   terraform:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -34,6 +34,14 @@ jobs:
         run: |
           git config --global url."https://$AZURE_REPO_PAT@dev.azure.com".insteadOf "https://dev.azure.com"
 
+      - name: Install Powershell
+        run: |
+          sudo apt update
+          sudo apt install -y wget apt-transport-https software-properties-common
+          sudo apt update
+
+          pwsh
+      
       # Initialize Terraform (this will download the az-network module from Azure Repos
       - name: Terraform Init
         run: terraform init
