@@ -6,15 +6,55 @@ on:
       - main
 
 jobs:
-  terraform:
+  Terraform-Plan:
     runs-on: ubuntu-latest
     env:
       AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      
+    steps:
+      # Checkout the az-root repository (the repository containing the Terraform code)
+      - name: Checkout az-root repository
+        uses: actions/checkout@v2
 
+      # Set up Terraform CLI
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: '1.5.0'
+          
+      # Change to az-root directory where Terraform configuration files are located
+      - name: Change to az-root directory
+        run: cd az-root
+
+      - name: Configure Git to use the PAT for Azure Repos
+        run: |
+          git config --global url."https://$AZURE_REPO_PAT@dev.azure.com".insteadOf "https://dev.azure.com"
+      
+      # Logging into Azure Account
+      - name:  Azure Login
+        run: |
+          export AZURE_CLIENT_ID="${{ secrets.AZURE_CLIENT_ID }}"
+          export AZURE_CLIENT_SECRET="${{ secrets.AZURE_CLIENT_SECRET }}"
+          export AZURE_TENANT_ID="${{ secrets.AZURE_TENANT_ID }}"
+          export AZURE_SUBSCRIPTION_ID="${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+ 
+      # Initialize Terraform (this will download the az-network module from Azure Repos
+      - name: Terraform Init
+        run: terraform init
+        working-directory: az-root
+
+      # Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: az-root
+        
+  Terraform-Apply:
+    runs-on: ubuntu-latest
+    env:
+      AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
+      reviewers: williamcastelino
+      
     steps:
       # Checkout the az-root repository (the repository containing the Terraform code)
       - name: Checkout az-root repository
@@ -54,11 +94,6 @@ jobs:
       # Initialize Terraform (this will download the az-network module from Azure Repos
       - name: Terraform Init
         run: terraform init
-        working-directory: az-root
-
-      # Terraform Plan
-      - name: Terraform Plan
-        run: terraform plan
         working-directory: az-root
 
       # Terraform Apply
