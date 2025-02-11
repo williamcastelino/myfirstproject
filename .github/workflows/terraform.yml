@@ -37,11 +37,7 @@ jobs:
       # Logging into Azure Account
       - name:  Azure Login
         run: |
-          export AZURE_CLIENT_ID="${{ secrets.AZURE_CLIENT_ID }}"
-          export AZURE_CLIENT_SECRET="${{ secrets.AZURE_CLIENT_SECRET }}"
-          export AZURE_TENANT_ID="${{ secrets.AZURE_TENANT_ID }}"
-          export AZURE_SUBSCRIPTION_ID="${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-          az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+          az login --service-principal --username $ARM_CLIENT_ID --password $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
  
       # Initialize Terraform (this will download the az-network module from Azure Repos
       - name: Terraform Init
@@ -89,11 +85,7 @@ jobs:
       # Logging into Azure Account
       - name:  Azure Login
         run: |
-          export AZURE_CLIENT_ID="${{ secrets.AZURE_CLIENT_ID }}"
-          export AZURE_CLIENT_SECRET="${{ secrets.AZURE_CLIENT_SECRET }}"
-          export AZURE_TENANT_ID="${{ secrets.AZURE_TENANT_ID }}"
-          export AZURE_SUBSCRIPTION_ID="${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-          az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+          az login --service-principal --username $ARM_CLIENT_ID --password $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
 
        # Install PowerShell manually
       - name: Install Dependencies
