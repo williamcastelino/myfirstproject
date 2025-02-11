@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       
     steps:
       # Checkout the az-root repository (the repository containing the Terraform code)
@@ -53,6 +57,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AZURE_REPO_PAT: ${{ secrets.AZURE_REPO_PAT }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       reviewers: williamcastelino
       
     steps:
