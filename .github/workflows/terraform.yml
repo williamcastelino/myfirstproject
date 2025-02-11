@@ -33,6 +33,14 @@ jobs:
       - name: Configure Git to use the PAT for Azure Repos
         run: |
           git config --global url."https://$AZURE_REPO_PAT@dev.azure.com".insteadOf "https://dev.azure.com"
+      
+      # Logging into Azure Account
+      - name:  Azure Login
+        run: |
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
        # Install PowerShell manually
       - name: Install Dependencies
@@ -40,9 +48,6 @@ jobs:
           curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/microsoft-prod.list
           curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
           sudo apt-get update --fix-missing
-
-      - name: Install PowerShell
-        run: |
           sudo apt-get install -y powershell
       
       # Initialize Terraform (this will download the az-network module from Azure Repos
